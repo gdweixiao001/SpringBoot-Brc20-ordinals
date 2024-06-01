@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coin.mapper.MjkjBaseSqlMapper">
+    <!--获取所以数据-->
+    <select id="getDataByTable" resultType="map">
+        select ${selectField}
+        from ${tableName} as tb
+        where is_deleted = 0
+        order by (id + 0) desc
+    </select>
+
+    <!--获取单个信息-->
+    <select id="getTableById" resultType="map">
+        select ${selectField}
+        from ${tableName} as tb
+        where is_deleted = 0
+          and id = #{id}
+    </select>
+    <select id="getTableByIdL" resultType="map">
+        select ${selectField}
+        from ${tableName} as tb
+        where is_deleted = 0
+          and id = #{id}
+    </select>
+
+    <select id="getDataListByField" resultType="map">
+        select ${selectField}
+        from ${tableName} as tb
+        where is_deleted = 0
+          and ${whereFieldName} = #{whereFieldValue}
+        order by (id + 0) desc
+    </select>
+
+    <select id="getDataListByFieldOrderBy" resultType="map">
+        select ${selectField}
+        from ${tableName} as tb
+        where is_deleted = 0
+          and ${whereFieldName} = #{whereFieldValue}
+        order by ${orderByField} ${orderStr}
+    </select>
+
+    <select id="getDataListByLike" resultType="map">
+        select ${selectField} from ${tableName} as tb
+        where is_deleted=0
+        <if test="type=='ALL'.toString()">
+            and ${whereFieldName} like CONCAT('%',#{whereFieldValue},'%')
+        </if>
+        <if test="type=='L'.toString()">
+            and ${whereFieldName} like CONCAT('%',#{whereFieldValue})
+        </if>
+        <if test="type=='R'.toString()">
+            and ${whereFieldName} like CONCAT(#{whereFieldValue},'%')
+        </if>
+        order by (id+0) desc
+    </select>
+
+    <select id="getDataListByIn" resultType="map">
+        select ${selectField} from ${tableName} as tb
+        where is_deleted=0
+        and ${whereFieldName} in
+        <foreach item="item" index="index" collection="whereFieldValueList" open="(" separator="," close=" )">
+            #{item}
+        </foreach>
+        order by (id+0) desc
+    </select>
+
+
+    <!-- 执行保存语句 据说可以防注入-->
+    <insert id="baseInsertSql" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        ${select_sql}
+    </insert>
+
+    <!-- 执行编辑语句 据说可以防注入-->
+    <update id="baseUpdateSql" parameterType="java.util.Map">
+        ${select_sql}
+    </update>
+
+    <update id="baseDeleteSqlStr">
+        update ${tableName}
+        set is_deleted = -1
+        where id = #{id}
+    </update>
+    <update id="baseDeleteSql">
+        update ${tableName}
+        set is_deleted = -1
+        where id = #{id}
+    </update>
+    <!--    自定义公共删除-->
+    <update id="baseZdyDeleteSql">
+        update ${tableName}
+        set is_deleted = -1
+        where ${whereFieldName} = #{id}
+    </update>
+    <delete id="baseRealDeleteSql">
+        delete
+        from ${tableName}
+        where id = #{id}
+    </delete>
+
+    <delete id="baseZdyRealDeleteSql">
+        delete from  ${tableName}
+        where ${whereFieldName} = #{id}
+    </delete>
+
+
+    <select id="getDataListByWrapper" resultType="map">
+        select
+        <choose>
+            <when test=" ew.SqlSelect == null or ew.SqlSelect == ''">
+                *
+            </when>
+            <otherwise>
+                ${ew.sqlSelect}
+            </otherwise>
+        </choose>
+        from
+        ${tableName}
+        <if test="ew.emptyOfWhere == false">
+            ${ew.customSqlSegment}
+        </if>
+    </select>
+
+    <select id="getDataOneByWrapper" resultType="map">
+        select
+        <choose>
+            <when test=" ew.SqlSelect == null or ew.SqlSelect == ''">
+                *
+            </when>
+            <otherwise>
+                ${ew.sqlSelect}
+            </otherwise>
+        </choose>
+        from
+        ${tableName}
+        <if test="ew.emptyOfWhere == false">
+            ${ew.customSqlSegment}
+        </if>
+        limit 1
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coin.mapper.CoinTradeMapper">
+
+    <select id="get24HTradeTotalPrice" resultType="decimal">
+        SELECT
+            sum(total_price_btc)
+        FROM
+            coin_trade_list
+            where is_deleted =0
+            and symbol_id =#{symbolId}
+            and tx_status=1
+            and tx_type = 5
+            and tx_time >#{startTime}
+    </select>
+
+    <select id="get24HTradeTotalCou" resultType="int">
+        SELECT
+            count(id)
+        FROM
+            coin_trade_list
+            where is_deleted =0
+            and symbol_id =#{symbolId}
+            and tx_status=1
+            and tx_type = 5
+            and tx_time >#{startTime}
+    </select>
+
+    <select id="getSignCou" resultType="int">
+        SELECT
+            sum(score)
+        FROM
+            coin_symbol_sign_log
+            where is_deleted =0
+            and symbol_id =#{symbolId}
+            and sign_time >#{startTime}
+    </select>
+
+
+</mapper>

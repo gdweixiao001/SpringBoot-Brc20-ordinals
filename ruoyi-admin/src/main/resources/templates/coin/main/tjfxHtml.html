@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('今日数据统计')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class=" select-table table-striped mytableclass" style="height: 640px;padding: 10px;">
+                <h2>评分列表：</h2>
+                <table id="bootstrap-table0"></table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class=" select-table table-striped mytableclass" style="height: 640px;padding: 10px;">
+                <h2>最近部署铭文列表：</h2>
+                <table id="bootstrap-table1"></table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class=" select-table table-striped mytableclass" style="height: 640px;padding: 10px;">
+                <h2>最近上头像铭文列表：</h2>
+                <table id="bootstrap-table2"></table>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class=" select-table table-striped mytableclass" style="height: 640px;padding: 10px;">
+                <h2>最近铸造完成铭文列表：</h2>
+                <table id="bootstrap-table3"></table>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<style>
+    .mytableclass .bootstrap-table .fixed-table-pagination > .pagination {
+        float: left !important;
+    }
+</style>
+<script th:inline="javascript">
+
+    var prefix = ctx + "coin/main";
+    $(function () {
+        var options0 = {
+            url: prefix + "/tjfx/page?type=score",
+            modalName: "评分列表",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_img',
+                    title: '铭文头像',
+                    formatter: function (value, row, index) {
+                        return $.table.imageView(row.symbol_img, '24px', '24px', 'self', 'img-xs24');
+                    }
+                },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                },
+                {
+                    field: 'score',
+                    title: '评分',
+                }, {
+                    field: 'market_cap_usdt_str',
+                    title: '市值',
+                }, {
+                    field: 'holders',
+                    title: '地址数',
+                },]
+        };
+        $.table.init(options0, 'bootstrap-table0');
+
+        var options1 = {
+            url: prefix + "/tjfx/page?type=zjbsmws",
+            modalName: "最近部署铭文列表",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_img',
+                    title: '铭文头像',
+                    formatter: function (value, row, index) {
+                        return $.table.imageView(row.symbol_img, '24px', '24px', 'self', 'img-xs24');
+                    }
+                },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                },
+                {
+                    field: 'deployed_time_str',
+                    title: '部署时间',
+                }, {
+                    field: 'market_cap_usdt_str',
+                    title: '市值',
+                }, {
+                    field: 'holders',
+                    title: '地址数',
+                },]
+        };
+        $.table.init(options1, 'bootstrap-table1');
+
+
+        var options2 = {
+            url: prefix + "/tjfx/page?type=zjstxs",
+            modalName: "最近上头像铭文列表",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_img',
+                    title: '铭文头像',
+                    formatter: function (value, row, index) {
+                        return $.table.imageView(row.symbol_img, '24px', '24px', 'self', 'img-xs24');
+                    }
+                },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                },
+                {
+                    field: 'img_time_str',
+                    title: '上头像时间',
+                }, {
+                    field: 'market_cap_usdt_str',
+                    title: '市值',
+                },{
+                    field: 'holders',
+                    title: '地址数',
+                }]
+        };
+        $.table.init(options2, 'bootstrap-table2');
+
+        var options3 = {
+            url: prefix + "/tjfx/page?type=zjzzwcs",
+            modalName: "最近铸造完成铭文列表",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_img',
+                    title: '铭文头像',
+                    formatter: function (value, row, index) {
+                        return $.table.imageView(row.symbol_img, '24px', '24px', 'self', 'img-xs24');
+                    }
+                },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                },
+                {
+                    field: 'minted_finally_time_str',
+                    title: '完成铸造时间',
+                }, {
+                    field: 'market_cap_usd_str',
+                    title: '市值',
+                },{
+                    field: 'holders',
+                    title: '地址数',
+                }]
+        };
+        $.table.init(options3, 'bootstrap-table3');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coin.mapper.CoinTjMapper">
+
+    <select id="getScoreCoinPage" resultType="map">
+        SELECT
+            id,
+            symbol_id,
+            symbol_name,
+            symbol_img,
+            market_cap_usdt,
+            market_cap_btc,
+            holders,
+            score
+        FROM
+            coin_symbol
+        WHERE
+            is_deleted = 0
+        and score>0
+        order by score desc
+    </select>
+
+    <select id="getDeployedCoinPage" resultType="map">
+        SELECT
+            id,
+            symbol_id,
+            symbol_name,
+            symbol_img,
+            market_cap_usdt,
+            market_cap_btc,
+            holders,
+            DATE_FORMAT(deployed_time, '%Y-%m-%d %H:%i:%s') as deployed_time_str
+        FROM
+            coin_symbol
+        WHERE
+            is_deleted = 0
+            AND deployed_time >= #{startTimeStr}
+            AND deployed_time is not null
+            order by deployed_time desc
+    </select>
+
+
+
+
+    <select id="getUploadImgCoinPage" resultType="map">
+        SELECT
+            id,
+            symbol_id,
+            symbol_name,
+            symbol_img,
+            market_cap_usdt,
+            market_cap_btc,
+            holders,
+            DATE_FORMAT(img_time, '%Y-%m-%d %H:%i:%s') as img_time_str
+        FROM
+            coin_symbol
+        WHERE
+            is_deleted = 0
+            AND img_time >= #{startTimeStr}
+            and img_time is not null
+            order by img_time desc
+    </select>
+
+    <select id="getMintFinallyCoinPage" resultType="map">
+        SELECT
+            id,
+            symbol_id,
+            symbol_name,
+            symbol_img,
+            market_cap_usdt,
+            market_cap_btc,
+            holders,
+             DATE_FORMAT(minted_finally_time, '%Y-%m-%d %H:%i:%s') as minted_finally_time_str
+        FROM
+            coin_symbol
+        WHERE
+            is_deleted = 0
+            AND minted_finally_time >= #{startTimeStr}
+            and minted_finally_time is not null
+            order by minted_finally_time
+    </select>
+
+    <select id="getRankByAddress" resultType="map">
+        SELECT
+            id,
+            symbol_name,
+            symbol_img,
+            market_cap_usdt,
+			holders
+        FROM
+            coin_symbol
+        WHERE
+		is_deleted=0
+		order by holders desc
+    </select>
+
+
+    <select id="getRankByVolume" resultType="map">
+        SELECT
+            id,
+            symbol_name,
+            symbol_img,
+            market_cap_usdt,
+			volume_usdt,
+			holders
+        FROM
+            coin_symbol
+        WHERE
+		is_deleted=0
+		order by CAST(volume_usdt AS DECIMAL(28, 8))  desc
+    </select>
+
+    <select id="getMarketByVolume" resultType="map">
+        SELECT
+            id,
+            symbol_name,
+            symbol_img,
+            market_cap_usdt,
+            holders
+        FROM
+            coin_symbol
+        WHERE
+		is_deleted=0
+		order by CAST(market_cap_usdt AS DECIMAL(28, 8))  desc
+    </select>
+
+    <select id="getRankByTransactions" resultType="map">
+        SELECT
+            id,
+            symbol_name,
+            symbol_img,
+            market_cap_usdt,
+            transactions,
+            holders
+        FROM
+            coin_symbol
+        WHERE
+		is_deleted=0
+		order by transactions  desc
+    </select>
+
+
+    <select id="getRankDetailPage" resultType="map" >
+        SELECT
+            id,
+            symbol_name,
+            symbol_img,
+            DATE_FORMAT(minted_finally_time, '%Y-%m-%d %H:%i:%s') as minted_finally_time_str,
+            DATE_FORMAT(deployed_time, '%Y-%m-%d %H:%i:%s') as deployed_time_str,
+            DATE_FORMAT(img_time, '%Y-%m-%d %H:%i:%s') as img_time_str,
+            transactions,
+            holders,
+            volume_usdt,
+            market_cap_usdt
+        FROM
+            coin_symbol
+        WHERE
+            is_deleted = 0
+        ORDER BY
+            <if test="type == 'dzs'">
+                holders
+            </if>
+            <if test="type == 'jye'">
+                CAST(volume_usdt AS DECIMAL(28, 8))
+            </if>
+            <if test="type == 'sz'">
+                CAST(market_cap_usdt AS DECIMAL(28, 8))
+            </if>
+            <if test="type == 'jys'">
+                transactions
+            </if>
+            ${isAscStr}
+    </select>
+
+
+
+    <select id="getCollectAddressPageByTime" resultType="map">
+    SELECT
+        cs.symbol_name,
+        tj.yesterday_cou,
+        tj.today_cou,
+        tj.sub_cou
+    FROM
+        coin_collect_address_cou tj
+        INNER JOIN coin_symbol cs on tj.symbol_id =cs.symbol_id
+        where tj.sub_cou >0
+        and tj.yesterday_cou >0
+        and tj.tj_time = #{timeStr}
+        order by tj.sub_cou desc
+    </select>
+
+    <select id="getCollectTradePageByTime" resultType="map">
+    SELECT
+        cs.symbol_name,
+        tj.yesterday_cou,
+        tj.today_cou,
+        tj.sub_cou
+    FROM
+        coin_collect_trade_cou tj
+        INNER JOIN coin_symbol cs on tj.symbol_id =cs.symbol_id
+        where tj.sub_cou >0
+        and tj.yesterday_cou>0
+        and tj.tj_time = #{timeStr}
+        order by tj.sub_cou desc
+    </select>
+
+    <select id="getCollectVolumePageByTime" resultType="map">
+    SELECT
+        cs.symbol_name,
+        tj.yesterday_cou,
+        tj.today_cou,
+        tj.sub_cou
+    FROM
+        coin_collect_volume_cou tj
+        INNER JOIN coin_symbol cs on tj.symbol_id =cs.symbol_id
+        where tj.sub_cou >0
+        and tj.yesterday_cou>0
+        and tj.tj_time = #{timeStr}
+        order by tj.sub_cou desc
+    </select>
+
+    <select id="getCollectMarketPageByTime" resultType="map">
+    SELECT
+        cs.symbol_name,
+        tj.yesterday_cou,
+        tj.today_cou,
+        tj.sub_cou
+    FROM
+        coin_collect_market_cou tj
+        INNER JOIN coin_symbol cs on tj.symbol_id =cs.symbol_id
+        where tj.sub_cou >0
+        and tj.yesterday_cou >0
+        and tj.tj_time = #{timeStr}
+        order by tj.sub_cou desc
+    </select>
+
+
+    <select id="getMySymbolList" resultType="map">
+        SELECT
+            cs.symbol_id,
+            cs.symbol_name,
+            cs.symbol_img,
+            cs.holders,
+            cs.market_cap_btc,
+            cs.zdf,
+            cs.floor_price
+        FROM
+            coin_symbol cs
+        INNER JOIN coin_symbol_member csm on cs.symbol_id =csm.symbol_id
+            where cs.is_deleted =0
+            and csm.is_deleted =0
+            and csm.user_id=#{userId}
+            order by csm.create_time desc
+    </select>
+
+    <select id="getAddress100Rate" resultType="decimal">
+        SELECT
+            sum( ratio_val + 0 ) as ratio_val
+        FROM
+            coin_symbol_hoder
+        WHERE
+            symbol_id = #{symbolId}
+    </select>
+
+</mapper>

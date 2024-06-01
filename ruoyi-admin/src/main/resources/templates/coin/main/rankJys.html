@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('交易数排行榜')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+
+    var prefix = ctx + "coin/main";
+    $(function() {
+        var options = {
+            url: prefix + "/rankDetailPage?type=jye",
+            modalName: "交易数排行榜",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            sortName: "transactions",
+            sortOrder: "desc",
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_img',
+                    title: '铭文头像',
+                    formatter: function (value, row, index) {
+                        return $.table.imageView(row.symbol_img,'32px','32px','self');
+                    }
+                },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                },
+                {
+                    field: 'minted_finally_time_str',
+                    title: '上头像时间',
+                },
+                {
+                    field: 'deployed_time_str',
+                    title: '部署时间',
+                },
+                {
+                    field: 'img_time_str',
+                    title: '铸造完成',
+                },
+                {
+                    field: 'holders',
+                    title: '地址数',
+                },
+                {
+                    field: 'transactions',
+                    title: '交易数',
+                    sortable: true,
+                },
+                {
+                    field: 'volume_usdt_str',
+                    title: '总交易额',
+                },
+                {
+                    field: 'market_cap_usdt_str',
+                    title: '总市值',
+                },
+            ]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

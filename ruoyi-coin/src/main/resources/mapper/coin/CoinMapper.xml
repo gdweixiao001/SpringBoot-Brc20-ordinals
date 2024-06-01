@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coin.mapper.CoinMapper">
+
+    <select id="getCoinSymbolPage" resultType="map">
+        SELECT
+            cs.*,
+            DATE_FORMAT(cs.deployed_time, '%Y-%m-%d') as deployed_timeStr,
+            DATE_FORMAT(cs.img_time, '%Y-%m-%d') as img_timeStr
+        FROM
+        coin_symbol cs
+        WHERE
+        cs.is_deleted = 0
+        <if test="params.symbol_name!=null and params.symbol_name!=''">
+            and cs.symbol_name like concat('%', #{params.symbol_name}, '%')
+        </if>
+        <if test="params !=null and params.deployed_time_begin != null and params.deployed_time_begin != ''">
+            <![CDATA[
+                and #{params.deployed_time_begin} <= DATE_FORMAT(cs.deployed_time, '%Y-%m-%d')
+            ]]>
+        </if>
+
+
+        <if test="params !=null and params.holders_start != null and params.holders_start != ''">
+            <![CDATA[
+                and #{params.holders_start} <= cs.holders
+            ]]>
+        </if>
+
+
+        <if test="params !=null and params.img_time != null and params.img_time != ''">
+            <![CDATA[
+                 and #{params.img_time_begin} <= DATE_FORMAT(cs.img_time, '%Y-%m-%d')
+                and #{params.img_time_end} >= DATE_FORMAT(cs.img_time, '%Y-%m-%d')
+            ]]>
+        </if>
+        <if test="params !=null and params.minted_progress != null and params.minted_progress != ''">
+            <![CDATA[
+                and cs.minted_progress >= #{params.minted_progress}
+            ]]>
+        </if>
+
+        <if test="params !=null and params.transactions_start != null and params.transactions_start != ''">
+            <![CDATA[
+                and cs.transactions >= #{params.transactions_start}
+            ]]>
+        </if>
+
+        <if test="params !=null and params.volume_btc != null and params.volume_btc != ''">
+            <![CDATA[
+               and CAST(cs.minted_progress AS DECIMAL(28, 8)) >= #{params.volume_btc}
+            ]]>
+        </if>
+
+        <if test="params !=null and params.select_is_img != null and params.select_is_img == 0">
+               and cs.img_time is not null
+        </if>
+        <if test="params !=null and params.select_is_img != null and params.select_is_img == 1">
+            and cs.img_time is  null
+        </if>
+
+        ORDER BY
+        cs.symbol_id DESC
+    </select>
+
+    <select id="getCoinAddressPage" resultType="map">
+        SELECT
+            sh.id,
+            sy.symbol_name,
+            sh.amount,
+            sh.owner_address,
+            sh.ratio_val
+        FROM
+            coin_symbol_hoder sh
+            INNER JOIN coin_symbol sy on sh.symbol_id =sy.symbol_id
+        where sh.is_deleted =0
+        <if test="params.symbol_id!=null and params.symbol_id!=''">
+            and sy.symbol_id = #{params.symbol_id}
+        </if>
+        order by sh.ind_sort asc
+    </select>
+
+
+    <select id="getCoinTxPage" resultType="map">
+    SELECT
+        tx.*,
+        cs.symbol_name,
+        DATE_FORMAT(tx.tx_time, '%Y-%m-%d %H:%i:%s') as tx_timeStr
+    FROM
+        coin_trade_list tx
+        INNER JOIN coin_symbol cs on tx.symbol_id =cs.symbol_id
+        where tx.is_deleted =0 and cs.is_deleted =0
+        <if test="params.symbol_id!=null and params.symbol_id!=''">
+            and tx.symbol_id = #{params.symbol_id}
+        </if>
+        order by tx.tx_time desc
+    </select>
+
+    <select id="getCoinPiazzaPage" resultType="map">
+        SELECT
+            piazza.id,
+            piazza.title,
+            piazza.content,
+            piazza.view_cou,
+            su.user_name,
+            DATE_FORMAT( su.create_time, '%Y-%m-%d %H:%i:%s' ) AS create_timeStr ,
+            (select count(id) from coin_symbol_piazza_reply where is_deleted=0 and symbol_piazza_id=piazza.id) as reply_cou
+        FROM
+            coin_symbol_piazza piazza
+            INNER JOIN sys_user su ON su.user_id = piazza.user_id
+        WHERE
+            piazza.is_deleted = 0
+            <if test="params.symbol_id!=null and params.symbol_id!=''">
+                and piazza.symbol_id= #{params.symbol_id}
+            </if>
+        ORDER BY
+            su.create_time DESC
+    </select>
+
+    <select id="getCoinPiazzaReplyList" resultType="map">
+        SELECT
+            reply.id,
+            reply.reply_content,
+            su.user_name,
+            su.avatar,
+            DATE_FORMAT( reply.reply_time, '%Y-%m-%d %H:%i:%s' ) AS reply_timeStr
+        FROM
+            coin_symbol_piazza_reply reply
+            INNER JOIN sys_user su on reply.user_id =su.user_id
+        WHERE
+            reply.is_deleted = 0
+            and reply.symbol_piazza_id= #{piazzaId}
+            order by reply.reply_time desc
+            limit 100
+    </select>
+
+    <select id="getCoinMemberPage" resultType="map">
+        SELECT
+            sm.id,
+            su.user_name,
+            su.avatar,
+            IF( sm.is_admin = 1, '是', '否' ) AS is_admin,
+            DATE_FORMAT( sm.create_time, '%Y-%m-%d %H:%i:%s' ) AS create_time
+        FROM
+            coin_symbol_member sm
+            INNER JOIN sys_user su ON sm.user_id = su.user_id
+        WHERE
+            sm.is_deleted = 0
+            and sm.symbol_id =#{symbolId}
+        ORDER BY
+            sm.is_admin DESC,
+            sm.create_time DESC
+    </select>
+
+    <select id="getCoiSameCreateUserPage" resultType="map">
+        SELECT
+            symbol_id,
+            symbol_name,
+            symbol_img,
+            holders,
+            market_cap_usdt,
+            DATE_FORMAT( deployed_time, '%Y-%m-%d %H:%i:%s' ) AS deployed_time_str
+        FROM
+            coin_symbol
+            where is_deleted =0
+            and symbol_create_address=#{createUserAddress}
+            and symbol_id!=#{symbolId}
+            order by holders desc,deployed_time desc
+    </select>
+
+</mapper>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('公告详细')"/>
+</head>
+<body>
+<div class="main-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="mail-box-header">
+                <div class="mail-tools tooltip-demo m-t-md">
+                    <h3 style="text-align: center">[[${dataMap.title}]]</h3>
+                    <h5>
+                        <span class="pull-right font-noraml">[[${dataMap.create_timeStr}]] </span>
+                    </h5>
+                </div>
+            </div>
+            <div class="mail-box">
+                <div class="mail-body" th:utext="${dataMap.content}"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form class="form-horizontal m" id="form-piazza-reply">
+            <input id="piazzaId" name="piazzaId" type="hidden" th:value="${dataMap.id}"/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">回复：</label>
+                <div class="col-sm-8">
+                    <textarea id="content" maxlength="500" rows="2" cols="50" name="content" class="form-control"
+                              required></textarea>
+                </div>
+                <label class="col-sm-2 control-label"></label>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>回
+                复
+            </button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div style="margin: 20px"><h2>评论区</h2></div>
+    </div>
+    <!--  循环开始  -->
+    <div class="row" th:each="piazzaReply : ${piazzaReplyList}">
+        <div class="col-sm-12" style="border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+            <div class="user-panel col-sm-3">
+                <div class="pull-left image">
+                    <div style="float: left;width: 32px;margin: 9px 5px 0px 0px">
+                        <img th:src="${piazzaReply.avatar}" width="32px" onerror="this.src='img/profile.jpg'"
+                             class="img-circle" alt="User Image">
+                    </div>
+                    <div style="float: left;width: 150px;">
+                        <h3>[[${piazzaReply.user_name}]]</h3>
+                        <p style="font-size: 12px;">[[${piazzaReply.reply_timeStr}]]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="user-panel col-sm-8">
+                [[${piazzaReply.reply_content}]]
+            </div>
+        </div>
+    </div>
+    <!--         循环结束 -->
+
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/javascript">
+    var prefix = ctx + "coin/piazza";
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save(prefix + "/reply", $('#form-piazza-reply').serialize());
+        }
+    }
+</script>
+</body>
+</html>

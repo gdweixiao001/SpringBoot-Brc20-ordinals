@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('铭文详情')"/>
+    <th:block th:include="include :: jsonview-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <!--<form class="form-horizontal m-t" id="signupForm">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">铭文名称：</label>
+            <div class="form-control-static" th:text="${detailModel.symbol_name}"/>
+        </div>
+    </form>-->
+    <div class="wrapper animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12" style="height: 130px;overflow: hidden">
+                <div style="float: left;width: 250px;">
+                    <div style="float: left;margin:5px 10px">
+                        <img style="border: 1px solid #ddd;border-radius: 50%;" th:src="${detailModel.symbol_img}"
+                             width="100px" height="100px">
+                    </div>
+                    <div style="float: left;width: 100px;">
+                        <h1 style="font-size: 30px;margin-top: 20px">[[${score}]] 分</h1>
+                        <span style="font-size: 20px;margin-top: 5px;display: inline-block"
+                              th:text="${detailModel.symbol_name}"/>
+                    </div>
+                </div>
+                <div style="float: right;width: 800px">
+                    <div style="float: left;width: 220px">
+                        <h2>基本信息</h2>
+                        <p>总供应量：[[${detailModel.supply_num}]]</p>
+                        <p>创建时间：[[${detailModel.deployed_time}]]</p>
+                        <p>头像时间：[[${detailModel.img_time}]]</p>
+                    </div>
+                    <div style="float: left;width: 220px">
+                        <h2>铸造信息</h2>
+                        <p>已经铸造总量：[[${detailModel.confirmed_minted}]]</p>
+                        <p>铸造最大次数：[[${detailModel.max_cou_mint}]]</p>
+                        <p>单次铸造上限：[[${detailModel.limit_per_mint}]]</p>
+                    </div>
+                    <div style="float: left;width: 320px">
+                        <h2>社区活跃度</h2>
+                        <p style="font-size: 32px;margin-left: 40px">[[${detailModel.signTypeStr}]]</p>
+                        <div th:if="${detailModel.signFlag}" id="sign_btn">
+                            <a style="margin-left: 28px" class="btn btn-success btn-xs mb5" href="javascript:void(0)" onclick="signFun()">点击签到</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0"
+                         aria-valuemax="100" th:style="'width:'+${score}+'%' ">
+                        [[${score}]]%
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- 开始 -->
+            <div class="col-sm-2">
+                <div class="ibox">
+                    <div class="ibox-title " style="background: #f8ac59;color: #fff;">
+                        <h3>市值</h3>
+                    </div>
+                    <div class="ibox-content" style="height: 90px;background: #f8ac59;color: #fff;">
+                        <h4>[[${detailModel.market_cap_btc_str}]] </h4>
+                        <h4>[[${detailModel.market_cap_usdt_str}]] </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="ibox">
+                    <div class="ibox-title" style="background: #1ab394;color: #fff;">
+                        <h3>总交易额</h3>
+                    </div>
+                    <div class="ibox-content" style="height: 90px;background: #1ab394;color: #fff;">
+                        <h4>[[${detailModel.volume_btc_str}]] </h4>
+                        <h4>[[${detailModel.volume_usdt_str}]] </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="ibox">
+                    <div class="ibox-title" style="background: #1c84c6;color: #fff;">
+                        <h3>总交易数</h3>
+                    </div>
+                    <div class="ibox-content" style="height: 90px;background: #1c84c6;color: #fff;">
+                        <h4>[[${detailModel.transactions}]] 笔</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="ibox">
+                    <div class="ibox-title" style="background: #d85887;color: #fff;">
+                        <h3>持有人</h3>
+                    </div>
+                    <div class="ibox-content" style="height: 90px;background: #d85887;color: #fff;">
+                        <h4>[[${detailModel.holders}]] 人</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="ibox">
+                    <div class="ibox-title" style="background: #58d8d8;color: #fff;">
+                        <h3>24小时信息</h3>
+                    </div>
+                    <div class="ibox-content" style="height: 90px;background: #58d8d8;color: #fff;">
+                        <h4>成交额:[[${detailModel.trade24HTotalPrice}]]</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="ibox">
+                    <div class="ibox-title" style="background: #d0d858;color: #fff;">
+                        <h3>地板价</h3>
+                    </div>
+                    <div class="ibox-content" style="height: 90px;background: #d0d858;color: #fff;">
+                        <h4>[[${detailModel.flowPriceStr}]] sats</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- 结束 -->
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#tab-1" aria-expanded="true">市场订单</a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tab-2" aria-expanded="false">前100名持币地址</a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tab-3" aria-expanded="false">交易动态</a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tab-4" aria-expanded="false">发推资料</a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tab-5" aria-expanded="false">社区</a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tab-6" aria-expanded="false">发展历程</a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tab-7" aria-expanded="false">成员列表</a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tab-8" aria-expanded="false">相同初始人</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <!--   第一个个选项卡 -->
+                <div id="tab-1" class="tab-pane active">
+                    <div class="panel-body">
+                        <div class="wrapper wrapper-content animated fadeInRight">
+                            <div class="row">
+                                <!-- 开始 -->
+                                <div class="col-sm-3" th:each="marketItem : ${marketItemList}">
+                                    <div class="ibox">
+                                        <div class="ibox-title">
+                                            <h5>
+                                                <img th:src="${marketItem.tickerIcon}" width="24px" height="24px">
+                                                <span th:text="${marketItem.amount}"/> <span
+                                                    th:text="${marketItem.ticker}"/></h5>
+                                        </div>
+                                        <div class="ibox-content" style="padding: 15px 10px 20px 10px">
+                                            <h4><span style="display: inline-block;width: 40px">单价:</span><span
+                                                    class="maxp" th:text="${marketItem.onePrice}"/>sats/<span
+                                                    th:text="${marketItem.ticker}"/></h4>
+                                            <p><span style="display: inline-block;width: 40px">总价:</span> <span
+                                                    class="maxspan" th:text="${marketItem.totalBtc}"/> BTC</p>
+                                            <p><span style="display: inline-block;width: 40px"></span><span
+                                                    class="maxspan" th:text="${marketItem.totalUsdt}"/> USDT</p>
+                                            <div style="width: 100%;display: block;">
+                                                <a class="tobuy" target="_blank" th:href="${marketItem.linkUrl}">去购买</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 结束 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--   第二个选项卡 -->
+                <div id="tab-2" class="tab-pane ">
+                    <div class="panel-body">
+                        <div class="col-sm-12 select-table table-striped">
+                            <table id="bootstrap-table1"></table>
+                        </div>
+                    </div>
+                </div>
+                <!--   第三个选项卡 -->
+                <div id="tab-3" class="tab-pane ">
+                    <div class="panel-body">
+                        <div class="col-sm-12 select-table table-striped">
+                            <table id="bootstrap-table2"></table>
+                        </div>
+                    </div>
+                </div>
+                <!--   第四个选项卡 -->
+                <div id="tab-4" class="tab-pane ">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="btn-group-sm" id="toolbar3" role="group">
+                                <a class="btn btn-success" onclick="$.operate.add()">
+                                    <i class="fa fa-plus"></i> 新增
+                                </a>
+                                <a class="btn btn-warning" th:onclick="'syncCxData('+${detailModel.symbol_id}+')'">
+                                    <i class="fa fa-plus"></i> 同步
+                                </a>
+                            </div>
+                            <div class="col-sm-12 select-table table-striped">
+                                <table id="bootstrap-table3" data-page-size="10"
+                                       data-show-custom-view="true" data-custom-view="customViewFormatter"
+                                       data-show-custom-view-button="false">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--   第五个选项卡 -->
+                <div id="tab-5" class="tab-pane ">
+                    <div class="panel-body">
+                        <div class="btn-group-sm" id="toolbar4" role="group">
+                            <a class="btn btn-success" onclick="$.operate.addFull()">
+                                <i class="fa fa-plus"></i> 新增
+                            </a>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-12 select-table table-striped">
+                                <table id="bootstrap-table4"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--   第六个选项卡 -->
+                <div id="tab-6" class="tab-pane ">
+                    <div class="panel-body">
+                        <div class="row animated fadeInRight">
+                            <div class="ibox float-e-margins">
+                                <div id="ibox-content" style="max-height: 1000px;overflow: scroll">
+                                    <div id="vertical-timeline" class="vertical-container light-timeline">
+                                        <!--  循环开始  -->
+                                        <div class="vertical-timeline-block"
+                                             th:each="eventMap,status : ${eventMapList}">
+                                            <div th:if="${status.index ==0}"
+                                                 class="my_vertical-timeline-icon  navy-bg"></div>
+                                            <div th:if="${status.index !=0}" class="my_vertical-timeline-icon"
+                                                 style="background: #f1f1f1"></div>
+                                            <div class="vertical-timeline-content">
+                                                <p th:utext="${eventMap.content}"></p>
+                                            </div>
+                                        </div>
+                                        <!--         循环结束 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--   第七个选项卡 -->
+                <div id="tab-7" class="tab-pane ">
+                    <div class="panel-body">
+                        <div class="panel-body">
+                            <div class="col-sm-12 select-table table-striped">
+                                <table id="bootstrap-table7"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--   第八个选项卡 -->
+                <div id="tab-8" class="tab-pane ">
+                    <div class="panel-body">
+                        <div class="panel-body">
+                            <div class="col-sm-12 select-table table-striped">
+                                <table id="bootstrap-table8"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--   第九个选项卡 -->
+            </div>
+        </div>
+    </div>
+
+    <th:block th:include="include :: cxTextTemplate"/>
+    <th:block th:include="include :: cxTextTemplateView"/>
+    <th:block th:include="include :: footer"/>
+    <th:block th:include="include :: jsonview-js"/>
+    <th:block th:include="include :: bootstrap-table-custom-view-js"/>
+    <style>
+        .color_fff {
+            color: #fff !important;
+        }
+
+        .tobuy {
+            width: 160px;
+            text-align: center;
+            border: 1px solid #ccc;
+            margin: 0px auto;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 16px;
+        }
+
+        .maxspan {
+            width: 110px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .maxp {
+            width: 90px;
+            display: inline-block;
+        }
+
+        .my_vertical-timeline-icon {
+            position: absolute;
+            top: 26px !important;
+            left: 9px !important;
+            width: 20px !important;
+            height: 20px !important;
+            border-radius: 50%;
+            font-size: 16px;
+            text-align: center;
+        }
+    </style>
+    <script th:inline="javascript">
+
+        var types = [[${@dict.getType('sys_notice_type')}]];
+        var datas = [[${@dict.getType('sys_notice_status')}]];
+
+
+        var prefix = ctx + "coin/symbol";
+        var prefixCx = ctx + "coin/cx";
+        var prefixPiazza = ctx + "coin/piazza";//社区
+
+
+        var symbolId = [[${detailModel.symbol_id}]];
+        $(function () {
+            var options1 = {
+                url: prefix + "/address/" + symbolId,
+                modalName: "前100名持币地址",
+                showSearch: false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
+                columns: [{
+                    checkbox: false
+                },
+                    {
+                        field: 'amount',
+                        title: '数量'
+                    },
+                    {
+                        field: 'ratio_val',
+                        title: '占比'
+                    },
+                    {
+                        field: 'owner_address',
+                        title: '持币地址'
+                    }
+                ]
+            };
+            $.table.init(options1, "bootstrap-table1");
+
+            var options2 = {
+                url: prefix + "/trade/" + symbolId,
+                modalName: "交易动态",
+                showSearch: false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
+                columns: [{
+                    checkbox: false
+                },
+                    {
+                        field: 'tx_amount',
+                        title: '交易量',
+                        formatter: function (value, row, index) {
+                            var div = row.tx_amount + " " + row.symbol_name;
+                            return div;
+                        }
+                    },
+                    {
+                        field: 'unit_sat_btc',
+                        title: '单价',
+                        formatter: function (value, row, index) {
+                            var div = $.table.isnull("", row.unit_sat_btc, " sats/" + row.symbol_name + "</br>");
+                            div += $.table.isnull("$", row.unit_price_usdt, "/" + row.symbol_name + "</br>");
+                            return div;
+                        }
+                    },
+                    {
+                        field: 'tx_type',
+                        title: '交易类型',
+                        formatter: function (value, row, index) {
+                            if (value == '5') {
+                                return '<span class="badge badge-success">成交</span>';
+                            } else if (value == '21') {
+                                return '<span class="badge badge-warning">上架</span>';
+                            } else if (value == '22') {
+                                return '<span class="badge badge-info">下架</span>';
+                            } else if (value == '3') {
+                                return '<span class="badge badge-danger">降价</span>';
+                            } else if (value == '6') {
+                                return '<span class="badge badge-primary">转移</span>';
+                            }
+                        }
+                    },
+                    {
+                        field: 'tx_timeStr',
+                        title: '交易时间',
+                        formatter: function (value, row, index) {
+                            var div = $.table.isnull("交易时间：", row.tx_timeStr, "</br>");
+                            div += $.table.isnull("来源：", row.source_name, "</br>");
+                            return div;
+                        }
+                    },
+                    {
+                        field: 'total_price_btc',
+                        title: '总价',
+                        formatter: function (value, row, index) {
+                            var div = $.table.isnull("", row.total_price_btc, " BTC</br>");
+                            div += $.table.isnull("", row.total_price_usdt, " USDT</br>");
+                            return div;
+                        }
+                    },
+                    {
+                        field: 'from_address',
+                        title: '地址',
+                        formatter: function (value, row, index) {
+                            var div = $.table.isnull("卖方地址：", row.from_address, "</br>");
+                            div += $.table.isnull("买方地址：", row.to_address, "</br>");
+                            div += $.table.isnull("交易哈希：", row.tx_hash, "</br>");
+                            return div;
+                        }
+                    }
+
+                ]
+            };
+            $.table.init(options2, "bootstrap-table2");
+
+            var options3 = {
+                url: prefixCx + "/list/" + symbolId,
+                createUrl: prefixCx + "/add/" + symbolId,
+                updateUrl: prefixCx + "/edit/{id}",
+                removeUrl: prefixCx + "/remove",
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                showColumns: false,
+                showExport: false,
+                columns: [{
+                    checkbox: false
+                },
+
+                    {
+                        field: 'content',
+                        title: '内容'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:;" onclick="$.operate.edit(\'' + row.id + '\')" ><i class="fa fa-edit"></i>编辑</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs" href="javascript:;" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                            return actions.join('');
+                        }
+                    }]
+            };
+            $.table.init(options3, "bootstrap-table3","toolbar3");
+
+            var options4 = {
+                url: prefixPiazza + "/list/" + symbolId,
+                viewUrl: prefixPiazza + "/view/{id}",
+                createUrl: prefixPiazza + "/add/" + symbolId,
+                updateUrl: prefixPiazza + "/edit/{id}",
+                removeUrl: prefixPiazza + "/remove/"+symbolId,
+                modalName: "社区",
+                showSearch: false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
+                columns: [{
+                    checkbox: false
+                },
+                    {
+                        field: 'title',
+                        title: '标题',
+                        formatter: function (value, row, index) {
+                            return '<a href="javascript:void(0)" onclick="$.operate.view(\'' + row.id + '\')">' + value + '</a>';
+                        }
+                    },
+                    {
+                        field: 'view_cou',
+                        title: '浏览数'
+                    },
+                    {
+                        field: 'reply_cou',
+                        title: '评论数'
+                    },
+                    {
+                        field: 'user_name',
+                        title: '发布者'
+                    },
+                    {
+                        field: 'create_timeStr',
+                        title: '发布时间'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-primary btn-xs mt5 " href="javascript:void(0)" onclick="$.operate.view(\'' + row.id + '\')"><i class="fa fa-search"></i>查看</a></br>');
+                            if(row.symbolAdminFlag || row.createFlag){
+                                actions.push('<a class="btn btn-success btn-xs mt5" href="javascript:void(0)" onclick="$.operate.editFull(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a></br>');
+                                actions.push('<a class="btn btn-danger btn-xs mt5" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a></br>');
+                            }
+                            return actions.join('');
+                        }
+                    }
+                ]
+            };
+            $.table.init(options4, "bootstrap-table4","toolbar4");
+
+            var options7 = {
+                url: prefix + "/member/" + symbolId,
+                modalName: "成员列表",
+                showSearch: false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
+                columns: [{
+                    checkbox: false
+                },
+                    {
+                        field: 'user_name',
+                        title: '用户名称'
+                    },
+                    {
+                        field: 'avatar',
+                        title: '头像',
+                        formatter: function(value, row, index) {
+                            return $.table.imageView(row.avatar);
+                        }
+                    },
+                    {
+                        field: 'is_admin',
+                        title: '管理员'
+                    },
+                    {
+                        field: 'create_time',
+                        title: '加入时间'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            if(row.is_admin !='是' && row.adminFlag ){
+                                actions.push('<a class="btn btn-success btn-xs mb5" href="javascript:void(0)" onclick="setAdmin(\'' + row.id + '\')">设为管理员</a></br>');
+                            }
+                            return actions.join('');
+                        }
+                    }
+                ]
+            };
+            $.table.init(options7, "bootstrap-table7","toolbar7");
+
+            var options8 = {
+                url: prefix + "/sameSymbolCrateUser/" + symbolId,
+                viewUrl: prefix + "/view/{id}",
+                modalName: "成员列表",
+                showSearch: false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
+                columns: [{
+                    checkbox: false
+                },
+                    {
+                        field: 'symbol_name',
+                        title: '铭文名称'
+                    },
+                    {
+                        field: 'symbol_img',
+                        title: '头像',
+                        formatter: function(value, row, index) {
+                            return $.table.imageView(row.symbol_img);
+                        }
+                    },
+                    {
+                        field: 'holders',
+                        title: '地址数'
+                    },
+                    {
+                        field: 'market_cap_usdt_str',
+                        title: '市值'
+                    },
+                    {
+                        field: 'deployed_time_str',
+                        title: '部署时间'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+
+                            if(row.isVipFlag){
+                                actions.push('<a class="btn btn-warning btn-xs mb5 " href="javascript:void(0)" onclick="$.operate.openTablFull(\'' + row.symbol_id + '\',\'' + table.options.viewUrl + '\',\'' + row.symbol_name + '详情\')">查看详情</a></br>');
+                            }else  if(row.isJoinFlag){
+                                //如果不是vip，则需要加入才可以
+                                actions.push('<a class="btn btn-warning btn-xs mb5 " href="javascript:void(0)" onclick="$.operate.openTablFull(\'' + row.symbol_id + '\',\'' + table.options.viewUrl + '\',\'' + row.symbol_name + '详情\')">查看详情</a></br>');
+                            }
+
+                            if(!row.isJoinFlag){//社区挂管理员才可以操作
+                               //未加入，则需要加入
+                                actions.push('<a class="btn btn-success btn-xs mb5" href="javascript:void(0)" onclick="join(\'' + row.symbol_id + '\')">点击加入</a></br>');
+                            }
+                            return actions.join('');
+                        }
+                    }
+
+                ]
+            };
+            $.table.init(options8, "bootstrap-table8","toolbar8");
+        });
+
+        function customViewFormatter(data) {
+            var template = $('#cxTextTemplate').html()
+            var templateView = $('#cxTextTemplateView').html()
+
+
+            var view = ''
+            $.each(data, function (i, row) {
+                var opFlag =row.opFlag;
+                if(opFlag){
+                    view += template.replace('%content%', row.content)
+                        .replace('%edit_id%', row.id)
+                        .replace('%del_id%', row.id);
+                }else{//只能看
+                    view += templateView.replace('%content%', row.content)
+                        .replace('%edit_id%', row.id)
+                        .replace('%del_id%', row.id);
+                }
+
+
+            })
+
+            return `<div class="row mx-0">${view}</div>`
+        }
+
+        function syncCxData(symbolId) {
+            $.ajax({
+                type: "post",
+                url: ctx + "coin/cx/template/" + symbolId,
+                success: function (result) {
+                    $.modal.msgSuccess(result.msg);
+                    $.table.refresh('bootstrap-table3')
+                }
+            });
+        }
+
+        function setAdmin(id) {
+            $.modal.confirm("确定要设置吗？", function() {
+                $.ajax({
+                    cache : true,
+                    type : "POST",
+                    url : prefix + "/setAdmin",
+                    data : {
+                        "memberId": id
+                    },
+                    async : false,
+                    error : function(request) {
+                        $.modal.alertError("系统错误");
+                    },
+                    success : function(data) {
+                        $.operate.successCallback(data);
+                    }
+                });
+            })
+        }
+
+        function signFun() {
+                $.ajax({
+                    cache : true,
+                    type : "POST",
+                    url : prefix + "/sign",
+                    data : {
+                        "symbolId": symbolId
+                    },
+                    async : false,
+                    error : function(request) {
+                        $.modal.alertError("系统错误");
+                    },
+                    success : function(data) {
+                        $.modal.alertSuccess("签到成功")
+                        location.reload();
+                    }
+                });
+            }
+
+        function join(symbolId) {
+            $.modal.confirm("确定要加入吗？", function() {
+                $.ajax({
+                    cache : true,
+                    type : "POST",
+                    url : prefix + "/join",
+                    data : {
+                        "symbolId": symbolId
+                    },
+                    async : false,
+                    error : function(request) {
+                        $.modal.alertError("系统错误");
+                    },
+                    success : function(data) {
+                        $.operate.successCallback(data);
+                    }
+                });
+            })
+
+
+        }
+    </script>
+
+</body>
+</html>

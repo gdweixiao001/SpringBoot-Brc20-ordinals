@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('我的邀请列表')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var prefix = ctx + "coin/user";
+
+    $(function() {
+        var options = {
+            url: prefix + "/myInvitePage",
+            modalName: "我的邀请列表",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'avatar',
+                    title: '头像',
+                    formatter: function(value, row, index) {
+                        return $.table.imageView(row.avatar);
+                    }
+                },
+                {
+                    field: 'user_name',
+                    title: '用户名'
+                },
+                {
+                    field: 'create_time_str',
+                    title: '创建时间'
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

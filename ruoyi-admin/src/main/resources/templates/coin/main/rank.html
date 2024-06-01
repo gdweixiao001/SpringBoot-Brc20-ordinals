@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排行榜</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/animate.min.css" th:href="@{/css/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.min.css" th:href="@{/css/style.min.css}" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-6" style="height: 550px;overflow: hidden;background: #fff">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>地址数最多的铭文列表</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" href="javascript:;" onclick="openRankDzsHtml()">
+                            更多
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-hover no-margins">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>头像</th>
+                                <th>符号</th>
+                                <th>地址数</th>
+                                <th>当前市值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="model,status: ${rankByAddressList}">
+                                <td>[[${status.index+1}]]</td>
+                                <td> <img th:src="${model.symbol_img}" width="24px"></td>
+                                <td>[[${model.symbol_name}]]</td>
+                                <td>[[${model.holders}]]</td>
+                                <td>[[${model.market_cap_usdt_str}]]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--  表格结束      -->
+        <div class="col-sm-6" style="height: 550px;overflow: hidden;background: #fff">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>交易额最高的铭文列表</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" href="javascript:;" onclick="openRankJyeHtml()">
+                            更多
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-hover no-margins">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>头像</th>
+                            <th>符号</th>
+                            <th>交易额</th>
+                            <th>当前市值</th>
+                            <th>地址数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="model,status : ${rankByVolumeList}">
+                            <td>[[${status.index+1}]]</td>
+                            <td> <img th:src="${model.symbol_img}" width="24px"></td>
+                            <td>[[${model.symbol_name}]]</td>
+                            <td>[[${model.volume_usdt_str}]]</td>
+                            <td>[[${model.market_cap_usdt_str}]]</td>
+                            <td>[[${model.holders}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--  表格结束      -->
+        <div class="col-sm-6" style="height: 550px;overflow: hidden;background: #fff">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>市值最高的铭文列表</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" href="javascript:;" onclick="openRankSzHtml()">
+                            更多
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-hover no-margins">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>头像</th>
+                            <th>符号</th>
+                            <th>当前市值</th>
+                            <th>地址数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="model,status : ${rankByMarketList}">
+                            <td>[[${status.index+1}]]</td>
+                            <td> <img th:src="${model.symbol_img}" width="24px"></td>
+                            <td>[[${model.symbol_name}]]</td>
+                            <td>[[${model.market_cap_usdt_str}]]</td>
+                            <td>[[${model.holders}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--  表格结束      -->
+        <div class="col-sm-6" style="height: 550px;overflow: hidden;background: #fff">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>交易数最高的铭文列表</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" href="javascript:;" onclick="openRankJysHtml()">
+                            更多
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-hover no-margins">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>头像</th>
+                            <th>符号</th>
+                            <th>交易数</th>
+                            <th>当前市值</th>
+                            <th>地址数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="model,status : ${rankByTransactionsList}">
+                            <td>[[${status.index+1}]]</td>
+                            <td> <img th:src="${model.symbol_img}" width="24px"></td>
+                            <td>[[${model.symbol_name}]]</td>
+                            <td>[[${model.transactions+'笔'}]]</td>
+                            <td>[[${model.market_cap_usdt_str}]]</td>
+                            <td>[[${model.holders}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--  表格结束      -->
+
+    </div>
+</div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/ajax/libs/flot/jquery.flot.js}"></script>
+<script th:src="@{/ruoyi/js/ry-ui.js?v=4.7.8}"></script>
+<script th:src="@{/ruoyi/js/common.js?v=4.7.8}"></script>
+<th:block th:include="include :: sparkline-js"/>
+<script type="text/javascript">
+    function openRankDzsHtml() {
+        var url = '/coin/main/rankDetailHtml?type=dzs';
+        $.modal.openTab("地址数排行榜", url, false);
+    }
+    function openRankJyeHtml() {
+        var url = '/coin/main/rankDetailHtml?type=jye';
+        $.modal.openTab("交易额排行榜", url, false);
+    }
+    function openRankSzHtml() {
+        var url = '/coin/main/rankDetailHtml?type=sz';
+        $.modal.openTab("市值排行榜", url, false);
+    }
+    function openRankJysHtml() {
+        var url = '/coin/main/rankDetailHtml?type=jys';
+        $.modal.openTab("交易数排行榜", url, false);
+    }
+
+</script>
+</body>
+</html>

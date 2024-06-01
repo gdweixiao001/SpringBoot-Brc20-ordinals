@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增发展历程')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-event-add">
+			<input id="symbolId" name="symbolId" type="hidden" th:value="${symbolId}"/>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">内容：</label>
+				<div class="col-sm-8">
+					<textarea id="content" maxlength="500"  rows="4" cols="50"  name="content" class="form-control" required></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script type="text/javascript">
+		var prefix = ctx + "coin/event";
+
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	$.operate.save(prefix + "/add", $('#form-event-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('铭文列表')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="notice-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            铭文名称：<input type="text" name="symbol_name"/>
+                        </li>
+                        <li>
+                            总交易数＞ <input type="num" name="transactions_start"/>
+                        </li>
+                        <li>
+                            地址数＞ <input type="num" name="holders_start"/>
+                        </li>
+                        <li class="select-time">
+                            <label>部署时间＞  </label>
+                            <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="deployed_time_begin"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var prefix = ctx + "coin/symbol";
+    var eventPrefix = ctx + "coin/event";
+
+    $(function() {
+        var options = {
+            url: prefix + "/list",
+            viewUrl: prefix + "/view/{id}",
+            eventLogUrl: eventPrefix + "/index/{id}",
+            modalName: "铭文列表",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_img',
+                    title: '铭文头像',
+                    formatter: function (value, row, index) {
+                        return $.table.imageView(row.symbol_img,'32px','32px','self');
+                    }
+                },
+                {
+                    field: 'symbol_name',
+                    title: '铭文名称',
+                    formatter: function (value, row, index) {
+                        var div=$.table.isnull("铭文名称：",row.symbol_name,"</br>");
+                        div+=$.table.isnull("铭文id：",row.symbolId,"</br>");
+                        div+=$.table.isnull("地址数：",row.holders,"</br>");
+                        div+=$.table.isnull("相同初始人：",row.sameCreateUserCou,"</br>");
+                        return div;
+                    }
+                },
+
+                {
+                    field: 'confirmed_minted',
+                    title: '铸造信息',
+                    formatter: function (value, row, index) {
+                        var div=$.table.isnull("总量：",row.supply_num,"</br>");
+                            div+=$.table.isnull("已铸造量：",row.confirmed_minted,"</br>");
+                            div+=$.table.isnull("铸造进度：",row.minted_progress,"</br>");
+                            div+=$.table.isnull("铸造最大次数：",row.max_cou_mint,"</br>");
+                        return div;
+                    }
+                },
+                {
+                    field: 'deployed_time',
+                    title: '部署时间',
+                    formatter: function (value, row, index) {
+                        var div=$.table.isnull("部署时间：",row.deployed_timeStr,"</br>");
+                        div+=$.table.isnull("头像时间：",row.img_timeStr,"</br>");
+                        return div;
+                    }
+                },
+                {
+                    field: 'volume_btc',
+                    title: '交易情况',
+                    formatter: function (value, row, index) {
+                        var div=$.table.isnull("总交易数：",row.transactions,"笔</br>");
+                        div+=$.table.isnull("总交易量：",row.volume_btc_str,"</br>");
+                        div+=$.table.isnull("总交易量：",row.volume_usdt_str,"</br>");
+                        return div;
+                    }
+                },
+                {
+                    field: 'market_cap_btc',
+                    title: '市值',
+                    formatter: function (value, row, index) {
+                        var div='';
+                        div+=$.table.isnull("总市值：",row.market_cap_btc_str,"</br>");
+                        div+=$.table.isnull("总市值：",row.market_cap_usdt_str,"</br>");
+                        return div;
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+
+                        if(row.isVipFlag){
+                            actions.push('<a class="btn btn-warning btn-xs mb5 " href="javascript:void(0)" onclick="$.operate.openTablFull(\'' + row.symbol_id + '\',\'' + table.options.viewUrl + '\',\'' + row.symbol_name + '详情\')">查看详情</a></br>');
+                        }else  if(row.isJoinFlag){
+                           //如果不是vip，则需要加入才可以
+                            actions.push('<a class="btn btn-warning btn-xs mb5 " href="javascript:void(0)" onclick="$.operate.openTablFull(\'' + row.symbol_id + '\',\'' + table.options.viewUrl + '\',\'' + row.symbol_name + '详情\')">查看详情</a></br>');
+                        }
+
+                        if(row.isJoinFlag){//社区挂管理员才可以操作
+                            if(row.adminFlag){
+                                actions.push('<a class="btn btn-primary btn-xs mb5" href="javascript:void(0)" onclick="$.operate.openTablFull(\'' + row.symbol_id + '\',\'' + table.options.eventLogUrl + '\',\'' + row.symbol_name + '发展历程\')">发展历程</a> ');
+                            }
+                        }else {//未加入，则需要加入
+                            actions.push('<a class="btn btn-success btn-xs mb5" href="javascript:void(0)" onclick="join(\'' + row.symbol_id + '\')">点击加入</a></br>');
+                        }
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+    function join(symbolId) {
+        $.modal.confirm("确定要加入吗？", function() {
+            $.ajax({
+                cache : true,
+                type : "POST",
+                url : prefix + "/join",
+                data : {
+                    "symbolId": symbolId
+                },
+                async : false,
+                error : function(request) {
+                    $.modal.alertError("系统错误");
+                },
+                success : function(data) {
+                    $.operate.successCallback(data);
+                }
+            });
+        })
+
+
+    }
+</script>
+</body>
+</html>

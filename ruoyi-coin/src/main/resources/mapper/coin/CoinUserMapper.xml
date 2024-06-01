@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coin.mapper.CoinUserMapper">
+
+    <select id="getMyInvitePage" resultType="map">
+    SELECT
+        su.user_name,
+        su.avatar,
+        DATE_FORMAT(su.create_time, '%Y-%m-%d %H:%i:%s') as create_time_str
+    FROM
+        coin_user_info ui
+        INNER JOIN sys_user su ON ui.user_id = su.user_id
+    WHERE
+        ui.is_deleted = 0
+        AND ui.p_id = #{userInfoId}
+    ORDER BY
+        su.create_time DESC
+    </select>
+
+
+</mapper>

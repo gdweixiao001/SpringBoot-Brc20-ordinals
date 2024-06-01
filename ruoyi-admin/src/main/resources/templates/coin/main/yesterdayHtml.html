@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('昨日数据统计')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class=" select-table table-striped mytableclass" style="height: 530px;padding: 10px;">
+                <h2>昨日增长地址数：</h2>
+                <table id="bootstrap-table1"></table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class=" select-table table-striped mytableclass" style="height: 530px;padding: 10px;">
+                <h2>昨日增交易笔数：</h2>
+                <table id="bootstrap-table2"></table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class=" select-table table-striped mytableclass" style="height: 530px;padding: 10px;">
+                <h2>昨日交易额：</h2>
+                <table id="bootstrap-table3"></table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class=" select-table table-striped mytableclass" style="height: 530px;padding: 10px;">
+                <h2>昨日市值：</h2>
+                <table id="bootstrap-table4"></table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<style>
+    .mytableclass .bootstrap-table .fixed-table-pagination > .pagination {
+        float: left !important;
+    }
+</style>
+<script th:inline="javascript">
+
+    var prefix = ctx + "coin/main";
+    $(function () {
+        var options1 = {
+            url: prefix + "/today/page?type=address&timeType=yesterday",
+            modalName: "昨日增长地址数",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            pageList: [10],
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                }, {
+                    field: 'yesterday_cou',
+                    title: '前天历史总地址数',
+                }, {
+                    field: 'today_cou',
+                    title: '昨日历史总地址数',
+                }, {
+                    field: 'sub_cou',
+                    title: '净增值',
+                }
+            ]
+        };
+        $.table.init(options1, 'bootstrap-table1');
+
+        var options2 = {
+            url: prefix + "/today/page?type=trade&timeType=yesterday",
+            modalName: "昨日交易笔数",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            pageList: [10],
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                }, {
+                    field: 'yesterday_cou',
+                    title: '前天历史总成交笔数',
+                }, {
+                    field: 'today_cou',
+                    title: '昨天历史总成交笔数',
+                }, {
+                    field: 'sub_cou',
+                    title: '净增值',
+                }
+            ]
+        };
+        $.table.init(options2, 'bootstrap-table2');
+
+        var options3 = {
+            url: prefix + "/today/page?type=volume&timeType=yesterday",
+            modalName: "昨日交易额",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            pageList: [10],
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                }, {
+                    field: 'yesterday_cou_str',
+                    title: '前天历史总成交笔额',
+                }, {
+                    field: 'today_cou_str',
+                    title: '昨天历史总成交笔额',
+                }, {
+                    field: 'sub_cou_str',
+                    title: '净增值',
+                }
+            ]
+        };
+        $.table.init(options3, 'bootstrap-table3');
+
+        var options4 = {
+            url: prefix + "/today/page?type=market&timeType=yesterday",
+            modalName: "昨日市值",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            pageList: [10],
+            columns: [{
+                checkbox: false
+            },
+                {
+                    field: 'symbol_name',
+                    title: '铭文'
+                }, {
+                    field: 'yesterday_cou_str',
+                    title: '前天历史总成交笔额',
+                }, {
+                    field: 'today_cou_str',
+                    title: '昨天历史总成交笔额',
+                }, {
+                    field: 'sub_cou_str',
+                    title: '净增值',
+                }
+            ]
+        };
+        $.table.init(options4, 'bootstrap-table4');
+
+    });
+</script>
+</body>
+</html>

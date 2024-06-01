@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/animate.min.css" th:href="@{/css/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.min.css" th:href="@{/css/style.min.css}" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-8" >
+            <div style="background: #fff;height: 340px;padding: 10px;">
+                <h3>热门铭文</h3>
+                <div class="col-sm-4" style="height: 132px;" >
+                    <div class="ibox float-e-margins" >
+                        <div class="ibox-title" style="background: #00a65a;color: #fff;">
+                            <span class="label label-success pull-right" style="background: #965151">第一名</span>
+                            <h5>[[${ticker0}]]</h5>
+                        </div>
+                        <div class="ibox-content" style="background: #00a65a;color: #fff;">
+                            <h1 class="no-margins">[[${zdf0}]] <img th:src="${image0}" width="30px" style="border-radius:50%;float: right"></h1>
+                            <small>涨跌幅</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4"  style="height: 132px;">
+                    <div class="ibox float-e-margins" >
+                        <div class="ibox-title" style="background: #00bfff;color: #fff;">
+                            <span class="label label-success pull-right" style="background: #965151">第二名</span>
+                            <h5>[[${ticker1}]]</h5>
+                        </div>
+                        <div class="ibox-content" style="background: #00bfff;color: #fff;">
+                            <h1 class="no-margins">[[${zdf1}]] <img th:src="${image1}" width="30px" style="border-radius:50%;float: right"></h1>
+                            <small>涨跌幅</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4" style="height: 132px;" >
+                    <div class="ibox float-e-margins" >
+                        <div class="ibox-title" style="background: #00f7de;color: #fff;">
+                            <span class="label label-success pull-right" style="background: #965151">第三名</span>
+                            <h5>[[${ticker2}]]</h5>
+                        </div>
+                        <div class="ibox-content" style="background: #00f7de;color: #fff;">
+                            <h1 class="no-margins">[[${zdf2}]]<img th:src="${image2}" width="30px" style="border-radius:50%;float: right"></h1>
+                            <small>涨跌幅</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4" style="height: 132px;" >
+                    <div class="ibox float-e-margins" >
+                        <div class="ibox-title" style="background: #8B91A0;color: #fff;">
+                            <span class="label label-success pull-right" style="background: #965151">第四名</span>
+                            <h5>[[${ticker3}]]</h5>
+                        </div>
+                        <div class="ibox-content" style="background: #8B91A0;color: #fff;">
+                            <h1 class="no-margins">[[${zdf3}]]<img th:src="${image3}" width="30px" style="border-radius:50%;float: right"></h1>
+                            <small>涨跌幅</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4" style="height: 132px;" >
+                    <div class="ibox float-e-margins" >
+                        <div class="ibox-title" style="background: #a99f34;color: #fff;">
+                            <span class="label label-success pull-right" style="background: #965151">第五名</span>
+                            <h5>[[${ticker4}]]</h5>
+                        </div>
+                        <div class="ibox-content" style="background: #a99f34;color: #fff;">
+                            <h1 class="no-margins">[[${zdf4}]]<img th:src="${image4}" width="30px" style="border-radius:50%;float: right"></h1>
+                            <small>涨跌幅</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4" style="height: 132px;" >
+                    <div class="ibox float-e-margins" >
+                        <div class="ibox-title" style="background: #d160d6;color: #fff;">
+                            <span class="label label-success pull-right" style="background: #965151">第六名</span>
+                            <h5>[[${ticker5}]]</h5>
+                        </div>
+                        <div class="ibox-content" style="background: #d160d6;color: #fff;">
+                            <h1 class="no-margins">[[${zdf5}]]<img th:src="${image5}" width="30px" style="border-radius:50%;float: right"></h1>
+                            <small>涨跌幅</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-4">
+            <div style="background: #fff;height: 340px;padding: 10px;">
+                <h3>通知公告</h3>
+                <div>
+                    <p>1.<a href="https://gitee.com/Linriqiang/springboot-insc" target="_blank">格局打开，代码全开源</a></p>
+                    <p>2.<a href="https://gitee.com/Linriqiang/springboot-insc" target="_blank">希望作为工程师的大家，为小弟点一个小小<strong>🌟 Star</strong></a></p>
+                    <p>3.<a href="https://gitee.com/Linriqiang/springboot-insc" target="_blank">可以加一下小弟，万一那一天项目被封了，你就找不到小弟了</a></p>
+                    <p style="text-align: center"><img src="http://oss.yckxt.com/chatgpt/insc/grwx.png?" width="160" height="160"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>我关注的铭文</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-hover no-margins">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>铭文</th>
+                            <th>地址数</th>
+                            <th>市值</th>
+                            <th>最低价</th>
+                            <th>涨跌幅</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="model,status: ${mySymbolList}">
+                            <td>[[${status.index+1}]]</td>
+                            <td> <img th:src="${model.symbol_img}" width="24px" style="margin-right: 5px">[[${model.symbol_name}]]</td>
+                            <td>[[${model.holders}]]</td>
+                            <td>[[${model.market_cap_btc_str}]]</td>
+                            <td>[[${model.floor_price}]] stas</td>
+                            <td class="text-info"  th:if="${model.showUpFlag}"> <i class="fa fa-level-up"></i> [[${model.zdf}]]</td>
+                            <td class="text-danger" th:if="${model.showDownFlag}"> <i class="fa fa-level-down"></i> [[${model.zdf}]]</td>
+                            <td>
+                               <a class="btn btn-warning btn-xs mb5" th:onclick="detail([[${model.symbol_name}]],[[${model.symbol_id}]])"  href="javascript:void(0)" >查看详情</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/ajax/libs/flot/jquery.flot.js}"></script>
+<script th:src="@{/ruoyi/js/common.js?v=4.7.8}"></script>
+<script th:src="@{/ruoyi/js/ry-ui.js?v=4.7.8}"></script>
+<th:block th:include="include :: sparkline-js" />
+<script type="text/javascript">
+    function detail(symbolName,symbolId) {
+        var url="/coin/symbol/view/"+symbolId;
+        $.modal.openTab("详情"+symbolName,url,true);
+    }
+</script>
+</body>
+</html>
