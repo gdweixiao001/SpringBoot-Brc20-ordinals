@@ -1,7 +1,4 @@
 <p align="center">
-    <a href="https://gitee.com/Linriqiang/springboot-insc/stargazers">
-        <img src="https://gitee.com/Linriqiang/springboot-insc/badge/star.svg?theme=gvp">
-    </a>
  	<a href="https://gitee.com/Linriqiang/springboot-insc">
  	    <img src="https://img.shields.io/badge/RuoYi-v4.7.8-brightgreen.svg">
  	</a>
