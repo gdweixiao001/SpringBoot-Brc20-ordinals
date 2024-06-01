@@ -45,6 +45,10 @@
 | 6.历史数据分析等         |       |
 | 7.成本统计以及追踪         |       |
 
+| 项目                                                              | Star                                                                                                                                                                                                                                                                                             | 简介                          |
+|-----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
+| [SpringBoot-Brc2-ordinals](https://gitee.com/Linriqiang/springboot-insc)  | [![Gitee star](https://gitee.com/Linriqiang/springboot-insc/badge/star.svg)](https://gitee.com/Linriqiang/springboot-insc)       | Gitee版        |
+| [SpringBoot-Brc2-ordinals](https://github.com/gdweixiao001/SpringBoot-Brc2-ordinals)      | [![GitHub stars](https://img.shields.io/github/stars/gdweixiao001/SpringBoot-Brc2-ordinals.svg?style=social&label=Stars)](https://github.com/gdweixiao001/SpringBoot-Brc2-ordinals)               | GitHub版       |
 
 
 ## 核心技术栈
